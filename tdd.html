@@ -1,0 +1,65 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>String Calculator</title>
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            margin: 20px;
+        }
+        .result, .error {
+            margin-top: 20px;
+            padding: 10px;
+            border-radius: 5px;
+        }
+        .result {
+            background-color: #e0ffe0;
+        }
+        .error {
+            background-color: #ffe0e0;
+        }
+    </style>
+</head>
+<body>
+    <h2>Enter a String:</h2>
+    <input type="text" id="inputString" placeholder="Enter string">
+    <button onclick="add()">calculate</button>
+
+    <div id="output" class="result"></div>
+    <div id="error" class="error"></div>
+
+    <script>
+        function add() {
+            const input = document.getElementById("inputString").value;
+            const outputDiv = document.getElementById("output");
+            const errorDiv = document.getElementById("error");
+            if (input.trim() === '') {
+                    outputDiv.innerHTML = `Numbers: None<br>Total Sum: 0`;
+                    return;
+                }
+            // Clear previous results
+            outputDiv.innerHTML = '';
+            errorDiv.innerHTML = '';
+
+            try {
+                const numbers = input.match(/-?\d+/g).map(Number);
+                
+                // Check for negative numbers
+                const negativeNumbers = numbers.filter(n => n < 0);
+                if (negativeNumbers.length > 0) {
+                    throw new Error(`negative numbers not 
+allowed ${negativeNumbers.join(", ")}`);
+                }
+
+                const sum = numbers.reduce((acc, num) => acc + num, 0);
+
+                outputDiv.innerHTML = `Numbers: ${numbers.join(", ")}<br>Total Sum: ${sum}`;
+            } catch (error) {
+                errorDiv.innerHTML = error.message;
+            }
+        }
+    </script>
+</body>
+</html>
